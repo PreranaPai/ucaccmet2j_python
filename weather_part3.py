@@ -1,8 +1,10 @@
+# Open the .json file and load it to a variable
 import json
 
 with open ('precipitation.json') as file:
     precipitation_data =  json.load(file)
 
+# Open, strip and split the .csv file and create lists with data from its columns
 with open('stations.csv') as station_file:
     stations_data = station_file.read()
 
@@ -17,22 +19,27 @@ with open('stations.csv') as file:
         location_names.append(column[0])
         state_names.append(column[1])
 
+# Dictionary for later in the code outside the loop
 summary_precipitation_overall = {}       
 
+# Loop to calculate total rain in all the stations 
 precipitation_yearly_total = 0
 for list_entry in precipitation_data:
     precipitation_yearly_total = precipitation_yearly_total + int(list_entry["value"])
 print(precipitation_yearly_total)
 
+# Overall loop to apply the whole code for every station 
 for i in range(len(station_names)):
     station_name = station_names[i]
     location_name = location_names[i]
     state_name = state_names[i]
     precipitation_station = []
+    # A loop that checks the name of each station against the station in the list
     for list_entry in precipitation_data:
         if list_entry["station"] == station_name:
             precipitation_station.append(list_entry)
 
+    # The date is split by '-' to separate and group by month using a for loop
     precipitation_station_monthly = []
     for i in range(1, 13):
         precipitation_monthly = 0
@@ -43,11 +50,13 @@ for i in range(len(station_names)):
         precipitation_station_monthly.append(precipitation_monthly)
     print(precipitation_station_monthly)
 
+    # Calculate the total rain for the year, per station under the for loop
     precipitation_station_yearly_total = 0
     for list_entry in precipitation_station:
         precipitation_station_yearly_total = precipitation_station_yearly_total + int(list_entry["value"])
     print(precipitation_station_yearly_total)
 
+    #
     precipitation_relative_monthly = []
     for list_entry in precipitation_station_monthly:
         precipitation_monthlypercentage = (list_entry/precipitation_station_yearly_total) * 100
