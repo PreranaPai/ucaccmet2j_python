@@ -1,3 +1,5 @@
+# Code for finding rain data for all given locations, and creating a summary
+
 # Open the .json file and load it to a variable
 import json
 
@@ -25,7 +27,7 @@ summary_precipitation_overall = {}
 # Loop to calculate total rain in all the stations 
 precipitation_yearly_total = 0
 for list_entry in precipitation_data:
-    precipitation_yearly_total = precipitation_yearly_total + int(list_entry["value"])
+    precipitation_yearly_total = (precipitation_yearly_total + int(list_entry["value"]))
 print(precipitation_yearly_total)
 
 # Overall loop to apply the whole code for every station 
@@ -46,17 +48,17 @@ for i in range(len(station_names)):
         for list_entry in precipitation_station:
             split_date = list_entry["date"].split('-')
             if int(split_date[1]) == i:
-                precipitation_monthly = precipitation_monthly + int(list_entry["value"])
+                precipitation_monthly = (precipitation_monthly + int(list_entry["value"]))
         precipitation_station_monthly.append(precipitation_monthly)
     print(precipitation_station_monthly)
 
     # Calculate the total rain for the year, per station under the for loop
     precipitation_station_yearly_total = 0
     for list_entry in precipitation_station:
-        precipitation_station_yearly_total = precipitation_station_yearly_total + int(list_entry["value"])
+        precipitation_station_yearly_total = (precipitation_station_yearly_total + int(list_entry["value"]))
     print(precipitation_station_yearly_total)
 
-    # Relative rain as a percentage of yearly total per station, using a for loop with the monthly data
+    # Relative rain as a percentage of yearly total per station, using a for loop with the monthly data 
     precipitation_relative_monthly = []
     for list_entry in precipitation_station_monthly:
         precipitation_monthlypercentage = (list_entry/precipitation_station_yearly_total) * 100
@@ -65,10 +67,10 @@ for i in range(len(station_names)):
 
     # Relative yearly rain for each station as a percentage of total rain for every location
     for list_entry in precipitation_station_monthly:
-        precipitation_relative_station = (list_entry/precipitation_yearly_total)
+        precipitation_relative_station = (list_entry/precipitation_yearly_total) * 100
     print(precipitation_relative_station)
 
-    # Summary dictionary with below mentioned variables
+    # Summary dictionary with variables coded for above
     summary_precipitation_station = {
         'station': station_name,
         'state': state_name,
