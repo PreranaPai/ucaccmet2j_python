@@ -56,18 +56,19 @@ for i in range(len(station_names)):
         precipitation_station_yearly_total = precipitation_station_yearly_total + int(list_entry["value"])
     print(precipitation_station_yearly_total)
 
-    #
+    # Relative rain as a percentage of yearly total per station, using a for loop with the monthly data
     precipitation_relative_monthly = []
     for list_entry in precipitation_station_monthly:
         precipitation_monthlypercentage = (list_entry/precipitation_station_yearly_total) * 100
         precipitation_relative_monthly.append(f'{precipitation_monthlypercentage}%')
     print(precipitation_relative_monthly)
 
+    # Relative yearly rain for each station as a percentage of total rain for every location
     for list_entry in precipitation_station_monthly:
         precipitation_relative_station = (list_entry/precipitation_yearly_total)
     print(precipitation_relative_station)
 
-    
+    # Summary dictionary with below mentioned variables
     summary_precipitation_station = {
         'station': station_name,
         'state': state_name,
@@ -77,8 +78,10 @@ for i in range(len(station_names)):
         'relativeYearlyPrecipitation': precipitation_relative_station
         }
     
+    # A dictionary nesting the previous one grouping by location name
     summary_precipitation_overall[location_name] = summary_precipitation_station
 
+#Saving the results as a .json file
 with open('result3.json','w') as file:
     json.dump(summary_precipitation_overall, file, indent =5)
         
